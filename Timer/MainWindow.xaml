@@ -10,7 +10,7 @@
 		<TabItem>
 			<TabItem.Header>
 				<Label Content="Countdown"
-					   MouseLeftButtonDown="TimerTypeSelectionChanged"/>
+					   MouseLeftButtonDown="SwitchedToCountdown"/>
 			</TabItem.Header>
 			<Grid>
                 <Grid.RowDefinitions>
@@ -45,7 +45,7 @@
         <TabItem>
 			<TabItem.Header>
 				<Label Content="Stopwatch"
-					   MouseLeftButtonDown="TimerTypeSelectionChanged"/>
+					   MouseLeftButtonDown="SwitchedToStopwatch"/>
 			</TabItem.Header>
             <Grid>
                 <Grid.RowDefinitions>

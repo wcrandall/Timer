@@ -198,18 +198,17 @@ namespace Timer
 			}
 		}
 
-        private void TimerTypeSelectionChanged(object sender, MouseButtonEventArgs e)
+        private void SwitchedToStopwatch(object sender, MouseButtonEventArgs e)
         {
 
-			if (_isStopwatch)
-			{
-				_isStopwatch = false;
-			}
-			else
-			{
-				_isStopwatch = true; 
-			}
+			_isStopwatch = true; 
 			Stop();
+        }
+
+        private void SwitchedToCountdown(object sender, MouseButtonEventArgs e)
+        {
+			_isStopwatch = false;
+			Stop(); 
         }
     }
 }
