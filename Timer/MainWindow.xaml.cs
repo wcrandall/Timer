@@ -137,11 +137,10 @@ namespace Timer
 			{
 				if (!_isDefaultValueOrEmpty)
 				{
-					if (Input > 0)
-					{
-						_dispatcherTimer.Start();
-						IsRunning = true;
-					}
+
+					_dispatcherTimer.Start();
+					IsRunning = true;
+					
 					
 				}
 			}
@@ -177,10 +176,6 @@ namespace Timer
 				if (Int32.TryParse(UserInput.Text, out int result))
 				{
 					Input = result;
-				}
-				else 
-				{
-					Input = 0; 
 				}
 			}
 			else 
