@@ -7,8 +7,12 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <TabControl>
-        <TabItem Header="Countdown">
-            <Grid>
+		<TabItem>
+			<TabItem.Header>
+				<Label Content="Countdown"
+					   MouseLeftButtonDown="TimerTypeSelectionChanged"/>
+			</TabItem.Header>
+			<Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="50"/>
                     <RowDefinition Height="50"/>
@@ -38,7 +42,11 @@
                          TextAlignment="Center" FontSize="200" TextWrapping="Wrap" IsReadOnly="True" Text="{Binding Path=Input}"/>
             </Grid>
         </TabItem>
-        <TabItem Header="Stopwatch">
+        <TabItem>
+			<TabItem.Header>
+				<Label Content="Stopwatch"
+					   MouseLeftButtonDown="TimerTypeSelectionChanged"/>
+			</TabItem.Header>
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="50"/>
@@ -60,11 +68,9 @@
                     <Button Content="Pause" Grid.Row="0" Grid.Column="1" Click="PauseButtonClicked"/>
                     <Button Content="Stop" Grid.Row="0" Grid.Column="2" Click="StopButtonClicked"/>
                 </Grid>
-                <TextBox TextAlignment="Center" FontSize="200" IsReadOnly="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                         TextWrapping="Wrap" Grid.Row="1" Grid.Column="0">
-                    STOPWATCH TIME
-                </TextBox>
-            </Grid>
+				<TextBox TextAlignment="Center" FontSize="200" IsReadOnly="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                         TextWrapping="Wrap" Grid.Row="1" Grid.Column="0" Text="{Binding Path=Input}"/>
+			</Grid>
         </TabItem>
     </TabControl>
 </Window>

@@ -24,7 +24,8 @@ namespace Timer
 	{
 		private DispatcherTimer _dispatcherTimer = new DispatcherTimer();
 		private bool _isRunning = false;
-		private bool _isDefaultValueOrEmpty = true; 
+		private bool _isDefaultValueOrEmpty = true;
+		private bool _isStopwatch = false; 
 		public bool IsRunning
 		{
 			get
@@ -68,16 +69,24 @@ namespace Timer
 
 		private void DispatcherTimer_Tick(object sender, EventArgs e)
 		{
-			Input--;
-			if (_input <= 0)
+			if (!_isStopwatch)
 			{
-				IsRunning = false; 
-				_dispatcherTimer.Stop();
+				Input--;
+				if (_input <= 0)
+				{
+					IsRunning = false;
+					_dispatcherTimer.Stop();
+				}
+			}
+			else
+			{
+				Input++; 
 			}
 		}
 
 		private void CheckIfInputIsNumber(object sender, TextChangedEventArgs e)
 		{
+
 			//removing spaces on right and left sides
 			string userInput =(sender as TextBox).Text.Trim();
 
@@ -134,11 +143,20 @@ namespace Timer
 
 		private void StartButtonClicked(object sender, RoutedEventArgs e)
 		{
-			if(!_isDefaultValueOrEmpty)
+			if (!_isStopwatch)
+			{
+				if (!_isDefaultValueOrEmpty)
+				{
+					_dispatcherTimer.Start();
+					IsRunning = true;
+				}
+			}
+			else
 			{
 				_dispatcherTimer.Start();
 				IsRunning = true;
 			}
+			
 		}
 
 		private void PauseButtonClicked(object sender, RoutedEventArgs e)
@@ -155,10 +173,44 @@ namespace Timer
 		{
 			if(IsRunning)
 			{
-				_dispatcherTimer.Stop();
-				IsRunning = false;
-				Input = Int32.Parse(UserInput.Text);
+				Stop(); 
 			}
 		}
-	}
+
+		private void Stop()
+		{
+			_dispatcherTimer.Stop();
+			IsRunning = false;
+			if (!_isStopwatch)
+			{
+				if (Int32.TryParse(UserInput.Text, out int result))
+				{
+					Input = result;
+				}
+				else 
+				{
+					Input = 0; 
+				}
+			}
+			else 
+			{
+				Input = 0; 
+			}
+		}
+
+        private void TimerTypeSelectionChanged(object sender, MouseButtonEventArgs e)
+        {
+			MessageBox.Show("achieved");
+
+			if (_isStopwatch)
+			{
+				_isStopwatch = false;
+			}
+			else
+			{
+				_isStopwatch = true; 
+			}
+			Stop();
+        }
+    }
 }
