@@ -177,6 +177,10 @@ namespace Timer
 				{
 					Input = result;
 				}
+                else
+                {
+					Input = 0; 
+                }
 			}
 			else 
 			{
