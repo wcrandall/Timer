@@ -140,8 +140,9 @@ namespace Timer
 					if (Input > 0)
 					{
 						_dispatcherTimer.Start();
+						IsRunning = true;
 					}
-					IsRunning = true;
+					
 				}
 			}
 			else

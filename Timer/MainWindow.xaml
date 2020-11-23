@@ -7,8 +7,10 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <TabControl>
-		<TabItem PreviewMouseLeftButtonDown="SwitchedToCountdown"
-				 Header="Countdown">
+		<TabItem>
+            <TabItem.Header>
+                <Label Content="Countdown" MouseLeftButtonDown="SwitchedToCountdown"/>
+            </TabItem.Header>
 			<Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="50"/>
@@ -39,8 +41,10 @@
                          TextAlignment="Center" FontSize="200" TextWrapping="Wrap" IsReadOnly="True" Text="{Binding Path=Input}"/>
             </Grid>
         </TabItem>
-		<TabItem PreviewMouseLeftButtonDown="SwitchedToStopwatch" 
-				 Header="Stopwatch">
+		<TabItem>
+            <TabItem.Header>
+                <Label Content="Stopwatch" MouseLeftButtonDown="SwitchedToStopwatch"/>
+            </TabItem.Header>
 			<Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="50"/>
