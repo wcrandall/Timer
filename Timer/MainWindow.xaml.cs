@@ -148,7 +148,7 @@ namespace Timer
 				if (!_isDefaultValueOrEmpty)
 				{
 					_dispatcherTimer.Start();
-					IsRunning = true;
+                    IsRunning = true;
 				}
 			}
 			else
@@ -200,7 +200,6 @@ namespace Timer
 
         private void TimerTypeSelectionChanged(object sender, MouseButtonEventArgs e)
         {
-			MessageBox.Show("achieved");
 
 			if (_isStopwatch)
 			{
