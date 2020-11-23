@@ -137,8 +137,11 @@ namespace Timer
 			{
 				if (!_isDefaultValueOrEmpty)
 				{
-					_dispatcherTimer.Start();
-                    IsRunning = true;
+					if (Input > 0)
+					{
+						_dispatcherTimer.Start();
+					}
+					IsRunning = true;
 				}
 			}
 			else
@@ -161,10 +164,7 @@ namespace Timer
 
 		private void StopButtonClicked(object sender, RoutedEventArgs e)
 		{
-			if(IsRunning)
-			{
-				Stop(); 
-			}
+			Stop(); 
 		}
 
 		private void Stop()
