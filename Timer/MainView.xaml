@@ -3,13 +3,14 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:local="clr-namespace:Timer"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <TabControl>
-		<TabItem>
+		<TabItem >
             <TabItem.Header>
-                <Label Content="Countdown" MouseLeftButtonDown="SwitchedToCountdown"/>
+                <Label Content="Countdown"/>
             </TabItem.Header>
 			<Grid>
                 <Grid.RowDefinitions>
@@ -20,11 +21,17 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <TextBox Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextChanged="CheckIfInputIsNumber"
+                <TextBox Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                          MouseDoubleClick="SelectTextboxInputOnFocus" GotKeyboardFocus="SelectTextboxInputOnFocus"
                          IsReadOnly="{Binding Path=IsRunning}"
                          Text="{Binding Path=UserInput, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                         PreviewMouseLeftButtonDown="SelectivelyIgnoreMouseButton"/>
+                         PreviewMouseLeftButtonDown="SelectivelyIgnoreMouseButton">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="TextChanged">
+                            <i:InvokeCommandAction Command="{Binding Path=CheckUserInputCommand, Mode=OneWay}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </TextBox>
                 <Grid Grid.Row="1" Grid.Column="0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
@@ -35,16 +42,16 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <Button Content="Start" Grid.Column="0" Grid.Row="0" Command="{Binding Path=StartCommand}" />
-                    <Button Content="Pause" Grid.Row="0" Grid.Column="1" Click="PauseButtonClicked"/>
-                    <Button Content="Stop" Grid.Column="2" Grid.Row="0" Click="StopButtonClicked"/>
+                    <Button Content="Pause" Grid.Row="0" Grid.Column="1" Command="{Binding Path=PauseCommand}"/>
+                    <Button Content="Stop" Grid.Column="2" Grid.Row="0" Command="{Binding Path=StopCommand}"/>
                 </Grid>
                 <TextBox Grid.Row="2" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                          TextAlignment="Center" FontSize="200" TextWrapping="Wrap" IsReadOnly="True" Text="{Binding Path=Input}"/>
             </Grid>
-        </TabItem>
-		<TabItem>
+        </TabItem >
+        <TabItem IsSelected="{Binding Path=IsStopwatch}">
             <TabItem.Header>
-                <Label Content="Stopwatch" MouseLeftButtonDown="SwitchedToStopwatch"/>
+                <Label Content="Stopwatch"/>
             </TabItem.Header>
 			<Grid>
                 <Grid.RowDefinitions>
@@ -64,8 +71,8 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <Button Content="Start" Grid.Row="0" Grid.Column="0" Command="{Binding Path=StartCommand}"/>
-                    <Button Content="Pause" Grid.Row="0" Grid.Column="1" Click="PauseButtonClicked"/>
-                    <Button Content="Stop" Grid.Row="0" Grid.Column="2" Click="StopButtonClicked"/>
+                    <Button Content="Pause" Grid.Row="0" Grid.Column="1" Command="{Binding Path=PauseCommand}"/>
+                    <Button Content="Stop" Grid.Row="0" Grid.Column="2" Command="{Binding Path=StopCommand}"/>
                 </Grid>
 				<TextBox TextAlignment="Center" FontSize="200" IsReadOnly="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                          TextWrapping="Wrap" Grid.Row="1" Grid.Column="0" Text="{Binding Path=Input}"/>

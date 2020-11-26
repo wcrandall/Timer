@@ -13,19 +13,18 @@ namespace Timer
     /// <summary>
     /// Interaction logic for MainView.xaml
     /// </summary>
-    public partial class MainView : Window, INotifyPropertyChanged
+    public partial class MainView : Window
 	{
 
-		public event PropertyChangedEventHandler PropertyChanged;
 
 		public MainView()
 		{
 			InitializeComponent();
-			DataContext = new MainViewModel(new Countdown(), new PageService()); 
+			ViewModel = new MainViewModel(new Countdown(), new PageService()); 
 		}
 
-
-
+		
+		
 		//private void CheckIfInputIsNumber(object sender, TextChangedEventArgs e)
 		//{
 			
@@ -84,6 +83,18 @@ namespace Timer
 			}
 		}
 
+		public MainViewModel ViewModel
+        {
+            get
+            {
+				return DataContext as MainViewModel;
+            }
+            set
+            {
+				DataContext = value; 
+            }
+        }
 
-	}
+
+    }
 }

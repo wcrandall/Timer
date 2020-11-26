@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 using System.Windows.Threading;
+using Timer.Commands;
 using Timer.Services;
 
 namespace Timer.ViewModels
@@ -11,8 +12,12 @@ namespace Timer.ViewModels
 		private bool _isStopwatch;
 		private string _userInput = _textboxPlaceholder;
 		private const string _textboxPlaceholder = "Enter A Time To Countdown From";
-		private ITimerService _timerService;
-		private IPageService _pageService; 
+		public ITimerService TimerService;
+		private IPageService _pageService;
+		public ICommand StartCommand { get; private set; }
+		public ICommand StopCommand { get; private set; }
+		public ICommand PauseCommand { get; private set; }
+		public ICommand CheckUserInputCommand { get; private set; }
 
 		public string UserInput
 		{
@@ -36,6 +41,7 @@ namespace Timer.ViewModels
 			{
 				_isStopwatch = value;
 				OnPropertyChanged();
+				SelectionChanged();
 			}
 		}
 		private int _input = 0;
@@ -51,33 +57,67 @@ namespace Timer.ViewModels
 				OnPropertyChanged();
 			}
 		}
-		public ICommand StartCommand { get; set; }
         public MainViewModel(ITimerService timerService, IPageService pageService)
         {
-			_timerService = timerService;
+			StartCommand = new RelayCommand(Start);
+			StopCommand= new RelayCommand(Stop);
+			PauseCommand = new RelayCommand(Pause);
+			CheckUserInputCommand = new RelayCommand(CheckIfInputIsNumber); 
+			TimerService = timerService;
+			SubscribeTimer(); 
 			_pageService = pageService;
+			IsStopwatch = false;
+        }
+
+		private void UnsubscribeTimer()
+        {
+			TimerService.TimerTick -= TimerTick; 
+        }
+		public void SubscribeTimer()
+        {
+			TimerService.TimerTick += TimerTick;
+		}
+		public void TimerTick(object source, int value)
+        {
+			Input = value;
+        }
+
+		public void SelectionChanged()
+        {
+			Stop();
+			UnsubscribeTimer();
+			if(IsStopwatch)
+            {
+				TimerService = new Stopwatch();
+            }
+            else
+            {
+				TimerService = new Countdown();
+            }
+			SubscribeTimer(); 
         }
 
 		public void Start()
         {
+			
 			if (!_isStopwatch)
 			{
 				if (!_isDefaultValueOrEmpty)
 				{
-					_timerService.Start(Input);
+					TimerService.Start(Input);
 
 				}
 			}
 			else
 			{
-				_timerService.Start(Input);
+				TimerService.Start(Input);
 			}
 			
         }
 
 		public void Stop()
         {
-			_timerService.Stop();
+			TimerService.Stop();
 			if (!_isStopwatch)
 			{
 				if (Int32.TryParse(UserInput, out int result))
@@ -96,7 +136,8 @@ namespace Timer.ViewModels
 		}
 		public void Pause()
         {
-			_timerService.Pause(); 
+
+			TimerService.Pause(); 
         }
 
 		public void CheckIfInputIsNumber()
@@ -134,16 +175,7 @@ namespace Timer.ViewModels
 
 		}
 
-		public void SwitchedToStopwatch()
-        {
-			IsStopwatch = true;
-			Stop(); 
-        }
-		public void SwitchedToCountdown()
-        {
-			IsStopwatch = false;
-			Stop(); 
-        }
+
 
 	}
 }
