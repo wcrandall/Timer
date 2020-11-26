@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Windows.Threading;
 
 namespace Timer.Services
 {
@@ -9,6 +8,7 @@ namespace Timer.Services
         void Stop();
         void Pause();
         event EventHandler<int> TimerTick;
+        bool IsRunning();
         void OnTimerTick(int numberMovingBy); 
     }
 }

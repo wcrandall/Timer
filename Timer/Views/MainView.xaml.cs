@@ -1,10 +1,6 @@
-﻿using System;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Threading;
 using Timer.Services;
 using Timer.ViewModels;
 
@@ -25,40 +21,6 @@ namespace Timer
 
 		
 		
-		//private void CheckIfInputIsNumber(object sender, TextChangedEventArgs e)
-		//{
-			
-		//	//removing spaces on right and left sides
-		//	UserInput =UserInput.Trim();
-
-		//	if (Int32.TryParse(UserInput, out int result))
-		//	{
-		//		if(result < 1)
-		//		{
-		//			MessageBox.Show("Please enter a number between 1 and " + Int32.MaxValue.ToString());
-		//			UserInput="";
-		//			_isDefaultValueOrEmpty = true; 
-		//		}
-		//		else
-		//		{
-		//			_isDefaultValueOrEmpty = false;
-		//			UserInput = result.ToString();
-		//			Input = result; 
-
-		//		}
-		//	}
-		//	else 
-		//	{
-		//		if (UserInput!= "" && UserInput != _textboxPlaceholder)
-		//		{
-		//			MessageBox.Show("Please enter a number between 1 and " + Int32.MaxValue.ToString());
-		//			UserInput="";
-		//			_isDefaultValueOrEmpty = true;
-		//		}
-
-		//	}
-			
-		//}
 
 		private void SelectTextboxInputOnFocus(object sender, RoutedEventArgs e)
 		{
@@ -82,6 +44,15 @@ namespace Timer
 				}
 			}
 		}
+		private void Label_MouseLeftButtonDown_StopwatchSelected(object sender, MouseButtonEventArgs e)
+		{
+			ViewModel.SelectionChanged(new Stopwatch());
+		}
+
+		private void Label_MouseLeftButtonDown_CountdownSelected(object sender, MouseButtonEventArgs e)
+		{
+			ViewModel.SelectionChanged(new Countdown());
+		}
 
 		public MainViewModel ViewModel
         {
@@ -94,7 +65,5 @@ namespace Timer
 				DataContext = value; 
             }
         }
-
-
     }
 }

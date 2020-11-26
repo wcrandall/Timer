@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Windows.Input;
-using System.Windows.Threading;
 using Timer.Commands;
 using Timer.Services;
 
 namespace Timer.ViewModels
 {
-	public class MainViewModel : BaseViewModel
+    public class MainViewModel : BaseViewModel
 	{
-		private bool _isDefaultValueOrEmpty = true;
-		private bool _isStopwatch;
 		private string _userInput = _textboxPlaceholder;
 		private const string _textboxPlaceholder = "Enter A Time To Countdown From";
 		private ITimerService TimerService;
@@ -44,19 +41,7 @@ namespace Timer.ViewModels
 				OnPropertyChanged();
 			}
 		}
-		public bool IsStopwatch
-		{
-			get
-			{
-				return _isStopwatch;
-			}
-			set
-			{
-				_isStopwatch = value;
-				OnPropertyChanged();
-				SelectionChanged();
-			}
-		}
+
 		private int _input = 0;
 		public int Input
 		{
@@ -79,7 +64,6 @@ namespace Timer.ViewModels
 			TimerService = timerService;
 			SubscribeTimer(); 
 			_pageService = pageService;
-			IsStopwatch = false;
         }
 
 		private void UnsubscribeTimer()
@@ -92,65 +76,34 @@ namespace Timer.ViewModels
 		}
 		private void TimerTick(object source, int value)
         {
+
 			Input = value;
         }
 
-		private void SelectionChanged()
+		public void SelectionChanged(ITimerService timerService)
         {
-			Stop();
+			
 			UnsubscribeTimer();
-			if(IsStopwatch)
-            {
-				TimerService = new Stopwatch();
-            }
-            else
-            {
-				TimerService = new Countdown();
-            }
+			Stop();
+			UserInput = _textboxPlaceholder;
+			Input = 0;
+			TimerService = timerService;
 			SubscribeTimer(); 
         }
 
 		private void Start()
         {
-			
-			if (!_isStopwatch)
-			{
-				if (!_isDefaultValueOrEmpty)
-				{
-					TimerService.Start(Input);
-					IsRunning = true;
-				}
-			}
-			else
-			{
-				TimerService.Start(Input);
-			}
-			
+			TimerService.Start(Input);
+			IsRunning = TimerService.IsRunning();
         }
 
 		private void Stop()
         {
 			TimerService.Stop();
-			if (!_isStopwatch)
-			{
-				IsRunning = false;
-				if (Int32.TryParse(UserInput, out int result))
-				{
-					Input = result;
-				}
-				else
-				{
-					Input = 0;
-				}
-			}
-			else
-			{
-				Input = 0;
-			}
+			IsRunning = TimerService.IsRunning();
 		}
 		private void Pause()
         {
-
 			TimerService.Pause(); 
         }
 
@@ -166,14 +119,11 @@ namespace Timer.ViewModels
 				{
 					_pageService.Message("Please enter a number between 1 and " + Int32.MaxValue.ToString());
 					UserInput = "";
-					_isDefaultValueOrEmpty = true;
 				}
 				else
 				{
-					_isDefaultValueOrEmpty = false;
 					UserInput = result.ToString();
 					Input = result;
-
 				}
 			}
 			else
@@ -182,14 +132,10 @@ namespace Timer.ViewModels
 				{
 					_pageService.Message("Please enter a number between 1 and " + Int32.MaxValue.ToString());
 					UserInput = "";
-					_isDefaultValueOrEmpty = true;
 				}
 
 			}
 
 		}
-
-
-
 	}
 }

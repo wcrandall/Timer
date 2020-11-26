@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Threading;
 
 namespace Timer.Services
@@ -33,15 +29,18 @@ namespace Timer.Services
 
             }
         }
-
-        public void Start(int currentNumber)
+        public bool IsRunning()
+        {
+            return _isRunning;
+        }
+        public virtual void Start(int currentNumber)
         {
             _currentNumber = currentNumber; 
             _dispatcherTimer.Start();
-            _isRunning = true; 
+            _isRunning = true;
         }
 
-        public void Stop()
+        public virtual void Stop()
         {
             _dispatcherTimer.Stop();
             _isRunning = false; 

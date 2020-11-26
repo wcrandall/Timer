@@ -4,13 +4,12 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-        xmlns:local="clr-namespace:Timer"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <TabControl>
 		<TabItem >
             <TabItem.Header>
-                <Label Content="Countdown"/>
+                <Label Content="Countdown" MouseLeftButtonDown="Label_MouseLeftButtonDown_CountdownSelected"/>
             </TabItem.Header>
 			<Grid>
                 <Grid.RowDefinitions>
@@ -49,9 +48,9 @@
                          TextAlignment="Center" FontSize="200" TextWrapping="Wrap" IsReadOnly="True" Text="{Binding Path=Input}"/>
             </Grid>
         </TabItem >
-        <TabItem IsSelected="{Binding Path=IsStopwatch}">
+        <TabItem>
             <TabItem.Header>
-                <Label Content="Stopwatch"/>
+                <Label Content="Stopwatch" MouseLeftButtonDown="Label_MouseLeftButtonDown_StopwatchSelected"/>
             </TabItem.Header>
 			<Grid>
                 <Grid.RowDefinitions>

@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Threading;
 
 namespace Timer.Services
 {
@@ -13,6 +8,11 @@ namespace Timer.Services
         {
             _currentNumber++;
             OnTimerTick(_currentNumber); 
+        }
+        public override void Stop()
+        {
+            OnTimerTick(0);
+            base.Stop();
         }
     }
 }
