@@ -7,7 +7,7 @@ using System.Windows.Threading;
 
 namespace Timer.Services
 {
-    public class TimerService : ITimerService
+    public abstract class TimerService : ITimerService
     {
         public event EventHandler<int> TimerTick;
         protected DispatcherTimer _dispatcherTimer = new DispatcherTimer();
@@ -18,10 +18,7 @@ namespace Timer.Services
             _dispatcherTimer.Tick += new EventHandler(DispatcherTimer_Tick);
             _dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
         }
-        protected virtual void DispatcherTimer_Tick(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
+        protected abstract void DispatcherTimer_Tick(object sender, EventArgs e);
 
         public void OnTimerTick(int numberMovingBy)
         {

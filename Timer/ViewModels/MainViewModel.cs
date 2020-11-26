@@ -6,7 +6,7 @@ using Timer.Services;
 
 namespace Timer.ViewModels
 {
-    public class MainViewModel:BaseViewModel
+	public class MainViewModel : BaseViewModel
 	{
 		private bool _isDefaultValueOrEmpty = true;
 		private bool _isStopwatch;
@@ -18,6 +18,19 @@ namespace Timer.ViewModels
 		public ICommand StopCommand { get; private set; }
 		public ICommand PauseCommand { get; private set; }
 		public ICommand CheckUserInputCommand { get; private set; }
+		private bool _isRunning; 
+		public bool IsRunning
+        {
+            get
+            {
+				return _isRunning;
+            }
+            set
+            {
+				_isRunning = value;
+				OnPropertyChanged();
+            }
+        }
 
 		public string UserInput
 		{
@@ -105,7 +118,7 @@ namespace Timer.ViewModels
 				if (!_isDefaultValueOrEmpty)
 				{
 					TimerService.Start(Input);
-
+					IsRunning = true;
 				}
 			}
 			else
@@ -120,6 +133,7 @@ namespace Timer.ViewModels
 			TimerService.Stop();
 			if (!_isStopwatch)
 			{
+				IsRunning = false;
 				if (Int32.TryParse(UserInput, out int result))
 				{
 					Input = result;
