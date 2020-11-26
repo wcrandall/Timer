@@ -12,7 +12,7 @@ namespace Timer.ViewModels
 		private bool _isStopwatch;
 		private string _userInput = _textboxPlaceholder;
 		private const string _textboxPlaceholder = "Enter A Time To Countdown From";
-		public ITimerService TimerService;
+		private ITimerService TimerService;
 		private IPageService _pageService;
 		public ICommand StartCommand { get; private set; }
 		public ICommand StopCommand { get; private set; }
@@ -86,16 +86,16 @@ namespace Timer.ViewModels
         {
 			TimerService.TimerTick -= TimerTick; 
         }
-		public void SubscribeTimer()
+		private void SubscribeTimer()
         {
 			TimerService.TimerTick += TimerTick;
 		}
-		public void TimerTick(object source, int value)
+		private void TimerTick(object source, int value)
         {
 			Input = value;
         }
 
-		public void SelectionChanged()
+		private void SelectionChanged()
         {
 			Stop();
 			UnsubscribeTimer();
@@ -110,7 +110,7 @@ namespace Timer.ViewModels
 			SubscribeTimer(); 
         }
 
-		public void Start()
+		private void Start()
         {
 			
 			if (!_isStopwatch)
@@ -128,7 +128,7 @@ namespace Timer.ViewModels
 			
         }
 
-		public void Stop()
+		private void Stop()
         {
 			TimerService.Stop();
 			if (!_isStopwatch)
@@ -148,13 +148,13 @@ namespace Timer.ViewModels
 				Input = 0;
 			}
 		}
-		public void Pause()
+		private void Pause()
         {
 
 			TimerService.Pause(); 
         }
 
-		public void CheckIfInputIsNumber()
+		private void CheckIfInputIsNumber()
         {
 
 			//removing spaces on right and left sides
