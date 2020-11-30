@@ -2,7 +2,7 @@
 
 namespace Timer.Services
 {
-    class Countdown:TimerService
+    public class Countdown:TimerService
     {
         private int _numberCountingDownFrom;
         protected override void DispatcherTimer_Tick(object sender, EventArgs e)

@@ -9,8 +9,8 @@ namespace Timer.ViewModels
 	{
 		private string _userInput = _textboxPlaceholder;
 		private const string _textboxPlaceholder = "Enter A Time To Countdown From";
-		private ITimerService TimerService;
-		private IPageService _pageService;
+		private ITimerService _timerService;
+		private readonly IPageService _pageService;
 		public ICommand StartCommand { get; private set; }
 		public ICommand StopCommand { get; private set; }
 		public ICommand PauseCommand { get; private set; }
@@ -61,18 +61,18 @@ namespace Timer.ViewModels
 			StopCommand= new RelayCommand(Stop);
 			PauseCommand = new RelayCommand(Pause);
 			CheckUserInputCommand = new RelayCommand(CheckIfInputIsNumber); 
-			TimerService = timerService;
+			_timerService = timerService;
 			SubscribeTimer(); 
 			_pageService = pageService;
         }
 
 		private void UnsubscribeTimer()
         {
-			TimerService.TimerTick -= TimerTick; 
+			_timerService.TimerTick -= TimerTick; 
         }
 		private void SubscribeTimer()
         {
-			TimerService.TimerTick += TimerTick;
+			_timerService.TimerTick += TimerTick;
 		}
 		private void TimerTick(object source, int value)
         {
@@ -87,24 +87,24 @@ namespace Timer.ViewModels
 			Stop();
 			UserInput = _textboxPlaceholder;
 			Input = 0;
-			TimerService = timerService;
+			_timerService = timerService;
 			SubscribeTimer(); 
         }
 
 		private void Start()
         {
-			TimerService.Start(Input);
-			IsRunning = TimerService.IsRunning();
+			_timerService.Start(Input);
+			IsRunning = _timerService.IsRunning();
         }
 
 		private void Stop()
         {
-			TimerService.Stop();
-			IsRunning = TimerService.IsRunning();
+			_timerService.Stop();
+			IsRunning = _timerService.IsRunning();
 		}
 		private void Pause()
         {
-			TimerService.Pause(); 
+			_timerService.Pause(); 
         }
 
 		private void CheckIfInputIsNumber()
